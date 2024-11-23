@@ -1,28 +1,29 @@
-import { createServer } from "http";
+import { createServer, IncomingMessage, ServerResponse } from "http";
 import { readFile } from "fs";
 
-var server = createServer(function (req, res) {
-    if (req.url == "/") {
-        readFile("index.html", (err, html) => {
-            res.write(html);
-            res.end();
+const server = createServer(function (req: IncomingMessage, res: ServerResponse) {
+    if (req.url === "/") {
+        readFile("./public/index.html", (err, html) => {
+            if (err) {
+                res.end("Internal Server Error");
+            } else {
+                res.end(html);
+            }
         });
-    }
-    else if (req.url == "/products") {
-        readFile("product.html", (err, html) => {
-            res.write(html);
-            res.end();
+    } else if (req.url === "/products") {
+        readFile("./public/product.html", (err, html) => {
+            if (err) {
+                res.end("Internal Server Error");
+            } else {
+                res.end(html);
+            }
         });
-    }
-    else {
-        readFile("not-found.html", function (err, html) {
-            res.write(html);
-            res.end();
-        });
+    } else {
+        res.writeHead(404, { "Content-Type": "text/plain" });
+        res.end("404 Not Found");
     }
 });
 
 server.listen(3000, () => {
-    console.log("node.js server at port 3000");
+    console.log("Node.js server at port 3000");
 });
-

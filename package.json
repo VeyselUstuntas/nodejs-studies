@@ -1,17 +1,20 @@
 {
-  "name": "website",
+  "name": "node-studies",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "dev": "nodemon src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "devDependencies": {
     "@types/node": "^22.9.3",
     "typescript": "^5.7.2"
-  }
+  },
+  "dependencies": {
+    "ts-node": "^10.9.2"
+  },
+  "description": ""
 }

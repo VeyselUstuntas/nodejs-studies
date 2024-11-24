@@ -1,28 +1,43 @@
+const { rejects } = require("assert");
 var http = require("http");
-var fs = require("fs");
 
-var server = http.createServer(function (req, res) {
-    if (req.url == "/") {
-        fs.readFile("index.html", (err, html) => {
-            res.write(html);
-            res.end();
+var server = http.createServer(async function (req, res) {
+
+    function firstPromise() {
+        return new Promise((resolve,reject) => {
+            setTimeout(() => {
+                resolve("1. asenkron işlem. Bir sonraki işlem 5 sn sonra...");
+                reject("1. işlem Hata");
+            }, 2000);
         });
     }
-    else if (req.url == "/products") {
-        fs.readFile("product.html", (err, html) => {
-            res.write(html);
-            res.end();
+
+    function secondPromise() {
+        return new Promise((resolve,reject) => {
+            setTimeout(() => {
+                resolve("2. asenkron işlem.");
+                
+                reject("2. işlem Hata");
+            }, 5000);
         });
     }
-    else {
-        fs.readFile("not-found.html", function (err, html) {
-            res.write(html);
-            res.end();
-        });
+
+    async function runAsyncOperation() {
+        console.log("Asenkron işlem başladı. Sonraki işlem 2 sn sonra...");
+
+        let firstAsyncPromise = await firstPromise();
+        console.log(firstAsyncPromise);
+
+        let secondAsyncPromise = await secondPromise();
+        console.log(secondAsyncPromise);
+        console.log("Asenkron işlem tamamlandı");
+        res.end();
     }
+    await runAsyncOperation();
+    res.end();
+
 });
 
 server.listen(3000, () => {
     console.log("node.js server at port 3000");
 });
-

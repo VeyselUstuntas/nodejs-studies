@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prestart": "echo node sunucusu başlatılıyor...",
+    "start": "node index.js && npm run poststart",
+    "poststart": "echo node sunucusu 3000 portunda ayağa kaldırıldı"
   },
   "keywords": [],
   "author": "",

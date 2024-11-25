@@ -1,25 +1,20 @@
 var http = require("http");
-var fs = require("fs");
 
 var server = http.createServer(function (req, res) {
-    if (req.url == "/") {
-        fs.readFile("index.html", (err, html) => {
-            res.write(html);
-            res.end();
-        });
+
+    let target = {
+        message1 : "hello",
+        message2: "everyone",
     }
-    else if (req.url == "/products") {
-        fs.readFile("product.html", (err, html) => {
-            res.write(html);
-            res.end();
-        });
-    }
-    else {
-        fs.readFile("not-found.html", function (err, html) {
-            res.write(html);
-            res.end();
-        });
-    }
+
+    let handler = {};
+
+    let proxy = new Proxy(target,handler);
+
+    console.log(proxy.message1);
+    console.log(proxy.message2);
+
+
 });
 
 server.listen(3000, () => {
